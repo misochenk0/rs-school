@@ -213,17 +213,24 @@ template {
 :root{
 	--color-primary: #F1CDB3;
 	--color-dark-s: #CDCDCD;
+	--color-dark-3xl: #292929;
 	--color-light-s: #FAFAFA;
+	--color-primary-light: #FDDCC4;
 }
 
 .container {
 	width: 1200px;
 	margin: 0 auto;
+	position: relative;
 }
 
 body {
 	position: relative;
 	font-family: 'Arial', sans-serif;
+}
+
+.logo {
+	text-decoration: none;
 }
 
 .header {
@@ -268,6 +275,10 @@ body {
 	font-size: 15px;
 	text-decoration: none;
 	line-height: 1.6;
+	transition: .5s all;
+}
+.header__nav ul a:hover {
+	color: var(--color-light-s)
 }
 
 .header__nav ul a.current {
@@ -282,4 +293,58 @@ body {
 	background:var(--color-primary);
 	bottom: -6px;
 	left: 0;
+}
+
+.banner {
+	padding-top: 180px;
+	background: url(../../assets/images/background-gradient.png), radial-gradient(100% 215.42% at 0% 0%, #5B483A 0%, #262425 100%), #211F20;
+}
+
+.banner__block {
+	padding-top: 163px;
+	max-width: 38.33%;
+}
+
+.banner__title {
+	margin: 0;
+	color: #fff;
+	font-size: 44px;
+	font-family: 'Geogria', serif;
+	line-height: 130%;
+	font-weight: 400;
+	max-width: 330px;
+}
+
+.banner__text {
+	color: var(--color-dark-s);
+	font-size: 15px;
+	line-height: 1.6;
+	margin-top: 42px;
+}
+
+.banner__wrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.btn {
+	border-radius: 100px;
+	background: var(--color-primary);
+	padding: 15px 45px;
+	font-size: 17px;
+	line-height: 130%;
+	letter-spacing: 0.06em;
+	display: inline-block;
+	margin-top: 42px;
+	color: var(--color-dark-3xl);
+	text-decoration: none;
+	transition: .5s all;
+}
+
+.btn:hover {
+	background: var(--color-primary-light);
+}
+
+.banner__img {
+	width: 58.2%;
 }
