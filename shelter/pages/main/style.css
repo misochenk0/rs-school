@@ -218,6 +218,7 @@ template {
 	--color-primary-light: #FDDCC4;
 	--color-dark-l: #545454;
 	--color-light-l:  #F6F6F6;
+	--color-dark-m: #B2B2B2;
 }
 
 .container {
@@ -516,4 +517,67 @@ section {
 	line-height: 1.15;
 	color: var(--color-dark-l);
 	letter-spacing: 0.06em;
+}
+
+.donation {
+	background: var(--color-light-l);
+	padding-top: 80px;
+}
+
+.donation__wrapper {
+	padding: 0 11.83%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.donation__img {
+	max-width: 525px;
+}
+
+.donation__block {
+	margin-left: 30px;
+	font-family: 'Geogria', serif;
+}
+
+.donation__title {
+	font-size: 35px;
+	color:var(--color-dark-l);
+	letter-spacing: 0.06em;
+	line-height: 1.3;
+	font-weight: 400;
+}
+
+.donation__text {
+	margin-top: 20px;
+	font-size: 15px;
+	line-height: 1.1;
+	letter-spacing: 0.06em;
+	color: var(--color-dark-l)
+}
+
+.donation-card {
+	display: inline-flex;
+	align-items: center;
+	column-gap: 15px;
+	background: var(--color-primary);
+	border-radius: 9px;
+	padding: 10px 15px;
+	margin-top: 20px;
+	text-decoration: none;
+}
+
+.donation-card__text {
+	letter-spacing: 0.06em;
+	font-size: 20px;
+	line-height: 1.15;
+	color: var(--color-dark-l);
+}
+
+.donation__caption {
+	font-size: 12px;
+	font-family: "Arial", sans-serif;
+	line-height: 1.5;
+	color: var(--color-dark-m);
+	margin-top: 20px;
 }
