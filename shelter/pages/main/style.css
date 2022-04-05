@@ -219,6 +219,7 @@ template {
 	--color-dark-l: #545454;
 	--color-light-l:  #F6F6F6;
 	--color-dark-m: #B2B2B2;
+	--color-light-xl: #ffffff;
 }
 
 .container {
@@ -262,7 +263,7 @@ section {
 	letter-spacing: 0.1em;
 	margin-left: 4px;
 	line-height: 15px;
-	color: #fff;
+	color: var(--color-light-xl);
 }
 
 .header__wrapper {
@@ -315,7 +316,7 @@ section {
 
 .banner__title {
 	margin: 0;
-	color: #fff;
+	color: var(--color-light-xl);
 	font-size: 44px;
 	font-family: 'Geogria', serif;
 	line-height: 130%;
@@ -373,7 +374,7 @@ section {
 }
 
 .about {
-	background: #fff;
+	background: var(--color-light-xl);
 }
 
 .about__wrapper {
@@ -459,7 +460,7 @@ section {
 }
 
 .item:hover {
-	background: #fff;
+	background: var(--color-light-xl);
 }
 .item:hover .item__button {
 	background: var(--color-primary-light);
@@ -580,4 +581,41 @@ section {
 	line-height: 1.5;
 	color: var(--color-dark-m);
 	margin-top: 20px;
+}
+
+.footer {
+	background: url(../../assets/images/background-gradient.png), radial-gradient(110.67% 538.64% at 5.73% 50%, #513D2F 0%, #1A1A1C 100%), #211F20;
+	padding-top: 40px;
+	font-family: "Georgia", serif;
+}
+
+.footer__grid {
+	display: grid;
+	grid-template-columns: 279px 302px 300px;
+	column-gap: 160px;
+}
+
+.footer__title {
+	letter-spacing: 0.06em;
+	font-size: 35px;
+	line-height: 130%;
+	font-weight: 400;
+	color: var(--color-light-xl);
+	margin-top: 16px;
+}
+
+.footer-item {
+	display: flex;
+	align-items: center;
+	column-gap: 20px;
+	margin-top: 40px;
+}
+
+.footer-item__text {
+	letter-spacing: 0.06em;
+	font-size: 20px;
+	line-height: 1.15;
+	text-decoration: none;
+	font-weight: 400;
+	color: var(--color-primary);
 }
