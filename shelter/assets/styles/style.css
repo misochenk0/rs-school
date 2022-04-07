@@ -251,6 +251,7 @@ section {
 .header_dark {
 	position: fixed;
 	padding: 30px 0;
+	z-index: 100;
 	background:var(--color-light-xl);
 }
 .header_dark .logo__title {
@@ -641,4 +642,66 @@ section {
 	text-decoration: none;
 	font-weight: 400;
 	color: var(--color-primary);
+}
+
+.pets {
+	padding-top: 200px;
+	background: var(--color-light-l)
+}
+.pets__title {
+	margin: 0;
+	text-align: center;
+	font-size: 35px;
+	line-height: 1.3;
+	letter-spacing: 0.06em;
+	color: var(--color-dark-l);
+	font-family: 'Georgia', serif;
+	font-weight: 400;
+}
+
+.pets__grid {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	column-gap: 40px;
+	row-gap: 30px;
+	margin-top: 60px;
+}
+
+.pagination {
+	margin-top: 60px;
+	display: flex;
+	justify-content: center;
+	column-gap: 20px;
+}
+
+.page-item {
+	width: 52px;
+	height: 52px;
+	text-align: center;
+	border-radius: 50%;
+	font-size: 20px;
+	font-family: "Georgia", serif;
+	line-height: 1.15;
+	letter-spacing: 0.06em;
+	color: var(--color-dark-3xl);
+	background: none;
+	cursor: pointer;
+	transition: .5s all;
+	border: 2px solid var(--color-primary);
+}
+
+.page-item:not([disabled], .current):hover {
+	background:var(--color-primary);
+}
+
+.page-item[disabled] {
+	border-color: var(--color-dark-s);
+	color: var(--color-dark-s);
+	cursor: default;
+}
+
+.page-item.current {
+	border-color:var(--color-primary);
+	background: var(--color-primary);
+	color: var(--color-dark-3xl);
 }
