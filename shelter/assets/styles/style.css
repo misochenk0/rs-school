@@ -267,7 +267,9 @@ section {
 .header_dark .header__nav ul a.current {
 	color: var(--color-dark-3xl);
 }
-
+.header_dark .header__nav ul a:hover {
+	color: var(--color-dark-3xl);
+}
 .logo__title {
 	letter-spacing: 0.06em;
 	font-family: 'Georgia', serif;
