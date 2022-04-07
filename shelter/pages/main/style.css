@@ -565,7 +565,12 @@ section {
 	border-radius: 9px;
 	padding: 10px 15px;
 	margin-top: 20px;
+	transition: .5s all;
 	text-decoration: none;
+}
+
+.donation-card:hover {
+	background: #FDDCC4;
 }
 
 .donation-card__text {
