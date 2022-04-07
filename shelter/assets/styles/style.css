@@ -248,6 +248,24 @@ section {
 	left: 0;
 	position: absolute;
 }
+.header_dark {
+	position: fixed;
+	padding: 30px 0;
+	background:var(--color-light-xl);
+}
+.header_dark .logo__title {
+	color: var(--color-dark-l);
+}
+.header_dark .logo__text {
+	color:var(--color-dark-3xl)
+}
+
+.header_dark .header__nav ul a {
+	color: var(--color-dark-l);
+}
+.header_dark .header__nav ul a.current {
+	color: var(--color-dark-3xl);
+}
 
 .logo__title {
 	letter-spacing: 0.06em;
