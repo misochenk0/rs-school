@@ -717,6 +717,12 @@ section {
 .hamburger {
 	display: none;
 }
+.nav-logo {
+	display: none;
+}
+.overflow {
+	display: none;
+}
 @media(max-width: 1280px) {
 	.container {
 		width: auto;
@@ -853,9 +859,8 @@ section {
 	.container {
 		margin: 0 10px;
 	}
-	.header__nav {
-		display: none;
-	}
+	
+
 	.banner__title {
 		text-align: center;
 		font-size: 25px;
@@ -1020,10 +1025,14 @@ section {
 		background: none;
 		border: none;
 		height: 22px;
+		margin-right: 45px;
+		z-index: 51;
+		transition: .5s all;
+		cursor: pointer;
 	}
 	.header__wrapper {
 		align-items: center;
-		justify-content: flex-start;
+		justify-content: space-between;
 		column-gap: 42px;
 		cursor: pointer;
 	}
@@ -1034,5 +1043,83 @@ section {
 	}
 	.header_dark .hamburger span {
 		background: var(--color-dark-3xl);
+	}
+	.header__nav {
+		position: fixed;
+		top: 0;
+		right: -100%;
+		width: 320px;
+		height: 100%;
+		padding: 30px 10px;
+		background: #292929;
+		z-index: 50;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: default;
+		transition: .5s all;
+	}
+	.show-nav .header__nav{
+		right: 0;
+	}
+	.header__nav .logo__title {
+		color: var(--color-primary);
+	}
+	.header__nav .logo__text {
+		color: var(--color-light-xl)
+	}
+	.show-nav .hamburger span{
+		background: var(--color-primary);
+	}
+	.show-nav {
+		overflow: hidden;
+		position: relative;
+	}
+	.overflow {
+		position: fixed;
+		width: 100%;
+		z-index: 10;
+		height: 100%;
+		opacity: 0;
+		visibility: hidden;
+		top: 0;
+		left: 0;
+		transition: .5s all;
+		display: block;
+		background: rgba(41, 41, 41, 0.6);
+	}
+	.show-nav .overflow {
+		opacity: 1;
+		visibility: visible;
+	}
+	.show-nav .hamburger {
+		transform: rotate(90deg)
+	}
+	.show-nav .header__nav ul a.current {
+		color: var(--color-light-s);
+	}
+	.show-nav .header__nav ul a {
+		color: var(--color-dark-s);
+	}
+	.show-nav .header__nav ul a:hover {
+		color: var(--color-light-s);
+	}
+	.nav-logo {
+		display: block;
+		position: absolute;
+		top: 30px;
+		text-decoration: none;
+		left: 10px;
+	}
+	.header__nav ul {
+		flex-direction: column;
+		text-align: center;
+		margin-top: 0;
+	}
+	.header__nav ul a {
+		font-size: 32px;
+	}
+	.header__nav ul li + li {
+		margin-top: 40px;
 	}
 }
