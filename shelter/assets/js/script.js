@@ -21,21 +21,36 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	
 
-	let amountSlides = '';
+	let amountSlides = '',
+		petsTotal = 0;
 	if(document.documentElement.clientWidth > 1279) {
 		amountSlides = 3;
+		petsTotal = 8;
 		scrollBy = '1080px';
 	} else if (document.documentElement.clientWidth > 767) {
 		amountSlides = 2;
+		petsTotal = 6;
 		scrollBy = '620px';
 	} else {
 		amountSlides = 1;
+		petsTotal: 3;
 		scrollBy = '310px';
 	}
 
 	const petsWrapper = document.querySelector('.friends-slider__wrapper');
 
 	let petsArr = []
+
+	function createItem(item) {
+		return `
+			<div class="item" data-item="${item.name}">
+				<img src="${item.img}" alt="${item.type} ${item.name}" class="item__img">
+				<div class="item__title">${item.name}</div>
+				<button class="item__button btn btn_tr" data-item="${item.name}">Learn more</button>
+			</div>
+		`
+		
+	}
 
 	fetch('../../data/pets.json')
 	.then(res => res.json())
@@ -82,13 +97,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		function innerSlides(block, arr, where='beforeend') {
 			
 			arr.forEach(item => {
-				block.insertAdjacentHTML(where, `
-				<div class="item" data-item="${item.name}">
-					<img src="${item.img}" alt="${item.type} ${item.name}" class="item__img">
-					<div class="item__title">${item.name}</div>
-					<button class="item__button btn btn_tr" data-item="${item.name}">Learn more</button>
-				</div>
-				`)
+				block.insertAdjacentHTML(where, createItem(item))
 			})
 		}
 		function removeItems(amount, from = 'start') {
@@ -156,6 +165,13 @@ document.addEventListener('DOMContentLoaded', () => {
 			})
 		}
 
+		const itemsWrapper = document.querySelector('.pets__grid');
+		if(itemsWrapper) {
+			for(let i =0; i < petsTotal; i++) {
+				itemsWrapper.insertAdjacentHTML('afterbegin', createItem(petsArr[i]))
+			}
+		}
+
 	})
 	function closePopup() {
 		document.body.style.overflow = 'visible';
@@ -180,7 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
 				}
  			})
 			if(thisPet.name) {
-
+				
 				document.body.insertAdjacentHTML('beforeend', `
 					<div class="popup-overflow">
 						<div class="popup">
@@ -205,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
 					</div>
 				`) 
 			}
-			// document.body.style.overflow = 'hidden';
+			document.body.style.overflow = 'hidden';
 
 		} 
 		if(e.target.classList.contains('popup-overflow')) {
