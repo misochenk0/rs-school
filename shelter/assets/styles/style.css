@@ -839,7 +839,7 @@ section {
 	background: var(--color-primary);
 }
 
-@media(max-width: 1280px) {
+@media(max-width: 1279px) {
 	.container {
 		width: auto;
 		margin: 0 30px;
