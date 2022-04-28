@@ -22,7 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 	
 
 	let amountSlides = '',
-		petsTotal = 0;
+		petsTotal = 0,
+		formArr = 0;
 	if(document.documentElement.clientWidth > 1279) {
 		amountSlides = 3;
 		petsTotal = 8;
@@ -33,7 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		scrollBy = '620px';
 	} else {
 		amountSlides = 1;
-		petsTotal: 3;
+		petsTotal = 3;
 		scrollBy = '310px';
 	}
 
@@ -167,9 +168,95 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		const itemsWrapper = document.querySelector('.pets__grid');
 		if(itemsWrapper) {
-			for(let i =0; i < petsTotal; i++) {
-				itemsWrapper.insertAdjacentHTML('afterbegin', createItem(petsArr[i]))
+			let totalPetsArr = [];
+			for(let k =0; k < (48 / petsTotal);k++) {
+				let arr = [];
+
+
+				for(let i = 0; i < +petsTotal; i++) {
+					let random = petsArr[getRandomInt(8)]
+					while(arr.includes(random)) {
+						random = petsArr[getRandomInt(8)]
+					}
+					arr.push(random)
+				}
+				totalPetsArr.push(...arr)
 			}
+			for(let i =0; i < petsTotal; i++) {
+				itemsWrapper.insertAdjacentHTML('afterbegin', createItem(totalPetsArr[i]))
+			}
+
+			console.log(totalPetsArr);
+			let currentPage = 1;
+
+			function changeWrapper(pageNumber) {
+				itemsWrapper.innerHTML = '';
+				for(let i = (pageNumber - 1) * petsTotal; i < (pageNumber - 1) * petsTotal + petsTotal; i++) {
+					itemsWrapper.insertAdjacentHTML('afterbegin', createItem(totalPetsArr[i]))
+				}
+			}
+
+			const btnNext = document.querySelector('.page-item.next');
+			const btnPrev = document.querySelector('.page-item.prev');
+			const btnFirst = document.querySelector('.page-item.first');
+			const btnLast = document.querySelector('.page-item.last');
+			const btnCurrent = document.querySelector('.page-item.current');
+
+			
+			btnNext.addEventListener('click', function() {
+				if(currentPage + 1 <= totalPetsArr.length / petsTotal) {
+					currentPage++
+					if(currentPage === totalPetsArr.length/ petsTotal) {
+						btnNext.disabled = 'true';
+						btnLast.disabled = 'true'
+					}
+				} 
+				
+				btnPrev.removeAttribute('disabled')
+				btnFirst.removeAttribute('disabled')
+				changeWrapper(currentPage)
+				btnCurrent.textContent = currentPage
+			})
+			
+			btnLast.addEventListener('click', function() {
+				currentPage = totalPetsArr.length / petsTotal;
+				btnNext.disabled = 'true';
+				btnLast.disabled = 'true';
+
+				btnPrev.removeAttribute('disabled')
+				btnFirst.removeAttribute('disabled')
+				changeWrapper(currentPage)
+			
+				btnCurrent.textContent = currentPage
+			})
+
+			btnPrev.addEventListener('click', function() {
+				if(currentPage + 1 > 1) {
+					currentPage--
+					if(currentPage === 1) {
+						btnPrev.disabled = 'true';
+						btnFirst.disabled = 'true'
+					}
+				} 
+				btnNext.removeAttribute('disabled')
+				btnLast.removeAttribute('disabled')
+				changeWrapper(currentPage)
+
+				btnCurrent.textContent = currentPage
+			})
+			
+			btnFirst.addEventListener('click', function() {
+				currentPage = 1;
+				btnPrev.disabled = 'true';
+				btnFirst.disabled = 'true';
+				changeWrapper(currentPage)
+
+				btnNext.removeAttribute('disabled')
+				btnLast.removeAttribute('disabled')
+			
+				btnCurrent.textContent = currentPage
+			})
+
 		}
 
 	})

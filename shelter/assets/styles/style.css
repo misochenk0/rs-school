@@ -1271,4 +1271,7 @@ section {
 	.header__nav ul li + li {
 		margin-top: 40px;
 	}
+	.popup__ul li + li {
+		flex-wrap: wrap;
+	}
 }
