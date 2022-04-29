@@ -12,12 +12,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	class Btn {
 		constructor(btn, shiftBtn, btnRu, shiftBtnRu, type, attribute) {
+			this.lang = 'en'
 			this.btn = btn
 			this.shiftBtn = shiftBtn
 			this.btnRu = btnRu
 			this.shiftBtnRu = shiftBtnRu
 			this.type = type
-			this.attribute = `data-btn=${attribute}`
+			this.attribute = `data-btn=${attribute ? attribute : (this.lang === 'ru' ? btnRu : btn)}`
 		}
 		
 	}
@@ -31,9 +32,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 
 		initKeybord(lang) {
+			this.lang = lang
 			k.btns.forEach(btn => {
 				keyboard.insertAdjacentHTML("beforeend",`
-					<button class="key-btn ${btn.type}" ${btn.attribute ? btn.attribute : ""}>
+					<button class="key-btn ${btn.type ? btn.type : ""}" ${btn.attribute ? btn.attribute : ""}>
 						${lang === "ru" ? btn.btnRu : btn.btn}
 						${btn.shiftBtn ? `<span class="extra-number">${lang === "ru" && btn.shiftBtnRu ? btn.shiftBtnRu : btn.shiftBtn}</span>` : ""}
 					</button>
@@ -44,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let k = new KeyBord()
 
-	k.addBtn(new Btn("`", "~", "ё", "", "special only-ru-letter", "ё"))
+	k.addBtn(new Btn("`", "~", "ё", "", "special only-ru-letter"))
 	k.addBtn(new Btn("1", "!", "1"))
 	k.addBtn(new Btn("2", "@", "2", "\""))
 	k.addBtn(new Btn("3", "#", "3", "№"))
@@ -76,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	k.addBtn(new Btn("]", "}", "ъ", "", "only-ru-letter"))
 	k.addBtn(new Btn("\\", "|", "\\", "/"))
 	k.addBtn(new Btn("DEL", "", "DEL", "", "special", "delete"))
-	k.addBtn(new Btn("Caps Lock", "", "Caps Lock", "", "special", "caps-lock"))
+	k.addBtn(new Btn("Caps Lock", "", "Caps Lock", "", "special", "capslock"))
 
 	k.addBtn(new Btn("a", "", "ф", "", "letter"))
 	k.addBtn(new Btn("s", "", "ы", "", "letter"))
@@ -102,19 +104,19 @@ document.addEventListener("DOMContentLoaded", () => {
 	k.addBtn(new Btn(",", "<", "б", "", "only-ru-letter"))
 	k.addBtn(new Btn(".", ">", "ю", "", "only-ru-letter"))
 	k.addBtn(new Btn("/", "?", ".", ","))
-	k.addBtn(new Btn("↑", "", "↑", "", "special", "arrow-top"))
+	k.addBtn(new Btn("↑", "", "↑", "", "special", "arrowup"))
 	k.addBtn(new Btn("Shift", "", "Shift", "", "special", "shift"))
 
 
-	k.addBtn(new Btn("Ctrl", "", "Ctrl", "", "special", "ctrl"))
-	k.addBtn(new Btn("Win", "", "Win", "", "special", "win"))
+	k.addBtn(new Btn("Ctrl", "", "Ctrl", "", "special", "control"))
+	k.addBtn(new Btn("Win", "", "Win", "", "special", "os"))
 	k.addBtn(new Btn("Alt", "", "Alt", "", "special", "alt"))
 	k.addBtn(new Btn("", "", "", "", "special space", "space"))
 	k.addBtn(new Btn("Alt", "", "Alt", "", "special", "alt"))
-	k.addBtn(new Btn("Ctrl", "", "Ctrl", "", "special", "ctrl"))
-	k.addBtn(new Btn("←", "", "←", "", "arrow-left"))
-	k.addBtn(new Btn("↓", "", "↓", "", "arrow-bottom"))
-	k.addBtn(new Btn("→", "", "→", "", "arrow-right"))
+	k.addBtn(new Btn("Ctrl", "", "Ctrl", "", "special", "control"))
+	k.addBtn(new Btn("←", "", "←", "","special", "arrowleft"))
+	k.addBtn(new Btn("↓", "", "↓", "","special", "arrowdown"))
+	k.addBtn(new Btn("→", "", "→", "","special", "arrowright"))
 
 
 
@@ -123,9 +125,34 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-	k.initKeybord("ru")
+	k.initKeybord("en")
 
 
+	document.addEventListener('keydown', (e) => {
+		const btns = document.querySelectorAll('.key-btn');
+		console.log(e.key);
+		if(btns[0]) {
+			btns.forEach(item => {
+				if(item.getAttribute('data-btn') == e.key.toLowerCase()) {
+					item.classList.add('press')
+				} else {
+					item.classList.remove('press')
+				}
+				if(item.getAttribute('data-btn') === "space" && e.keyCode == 32) {
+					item.classList.add('press')
+				}
+			})
+		}
+	})
+	document.addEventListener('keyup', (e) => {
+		const btns = document.querySelectorAll('.key-btn');
+		console.log(e.key);
+		if(btns[0]) {
+			btns.forEach(item => {
+				item.classList.remove('press')
+			})
+		}
+	})
 
 	
 })

@@ -44,6 +44,12 @@ body {
 	flex-shrink: 0;
 	position: relative;
 }
+
+.key-btn.press {	
+	background: green;
+	color:#fff;
+}
+
 .key-btn.space {
 	width: 48%;
 	flex-shrink: 1;
@@ -51,13 +57,16 @@ body {
 [data-btn="shift"] {
 	padding: 5px 75px;
 }
+[data-btn="enter"] {
+	padding: 5px 34px;
+}
 
 [data-btn="shift"] ~ [data-btn="shift"] {
 	padding: 5px 0;
 }
 
-[data-btn="caps-lock"] {
-	padding: 5px 34px;
+[data-btn="capslock"] {
+	padding: 5px 5px;
 }
 
 [data-btn="tab"] {
