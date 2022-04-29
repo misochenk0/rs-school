@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	let k = new KeyBoard()
 
-	k.addBtn(new Btn("`", "~", "ё", "", "special only-ru-letter"))
+	k.addBtn(new Btn("`", "~", "ё", "", "only-ru-letter"))
 	k.addBtn(new Btn("1", "!", "1"))
 	k.addBtn(new Btn("2", "@", "2", "\""))
 	k.addBtn(new Btn("3", "#", "3", "№"))
@@ -191,6 +191,35 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 				
 			})
+		}
+	})
+
+	function addLetter(l) {
+		textArea.value += l;
+		textArea.focus()
+	}
+
+	function removeLetter(pos) {
+		if(pos === 'prev') {
+			textArea.value = textArea.value.substring(0, textArea.value.length - 1)
+			textArea.focus()
+
+		}
+	}
+
+	document.addEventListener('click', e => {
+		if(e.target.classList.contains('key-btn')) {
+			if(!e.target.classList.contains('special')) {
+				addLetter(e.target.getAttribute('data-btn'))
+			}
+			if(e.target.getAttribute('data-btn') === 'backspace') {
+				removeLetter('prev')
+			}
+		}
+		if(e.target.parentElement && e.target.parentElement.classList.contains('key-btn')) {
+			if(!e.target.parentElement.classList.contains('special')) {
+				addLetter(e.target.parentElement.getAttribute('data-btn'))
+			}
 		}
 	})
 
