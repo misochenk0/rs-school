@@ -32,6 +32,22 @@ body {
 	flex-wrap: wrap;
 
 }
+.lang {
+	width: 100%;
+	text-align: right;
+	margin-bottom: 20px;
+	color: green;
+	display: flex;
+	align-items: center;
+	gap: 20px;
+	padding: 10px;
+}
+
+.lang .key-btn {
+	background: green;
+	color: #fff;
+	pointer-events: none;
+}
 
 .key-btn {
 	background: none;
