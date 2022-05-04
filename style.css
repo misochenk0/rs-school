@@ -41,6 +41,14 @@ body {
 	align-items: center;
 	gap: 20px;
 	padding: 10px;
+	flex-wrap: wrap;
+}
+
+.change-lang {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	column-gap: 20px;
 }
 
 .lang .key-btn {
@@ -48,13 +56,21 @@ body {
 	color: #fff;
 	pointer-events: none;
 }
-
+.lang .change-lang-btn {
+	pointer-events: all;
+	cursor: pointer;
+}
+.lang .change-lang-btn:hover {
+	color: green;
+	background: white;
+}
 .key-btn {
 	background: none;
 	border-radius: 4px;
 	border: 1px solid green;
 	padding: 5px;
 	min-width: 40px;
+	transition: .3s all;
 	font-size: 20px;
 	color: green;
 	flex-shrink: 0;
