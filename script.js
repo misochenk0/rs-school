@@ -29,15 +29,17 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 	class KeyBoard {
 		constructor() {
-			this.btns = []
+			this.btns = [],
+			this.lang = ""
 		}
 		addBtn(btn) {
 			this.btns.push(btn)
 		}
 
 		initKeyboard(lang) {
+			sessionStorage.setItem("lang", lang)
 			this.lang = lang
-			keyboard.innerHTML = lang === "ru" ? "<div class='lang'> <div>Текущий язык - Русский, чтобы изменить язык нажмите</div> <div class='key-btn'>SHIFT</div><div class='key-btn'>ALT</div></div>" : "<div class='lang'> <div>Current language - English, to change current language press</div><div class='key-btn'>SHIFT</div><div class='key-btn'>ALT</div></div>"
+			keyboard.innerHTML = lang === "ru" ? "<div class='lang'> <div>Текущий язык - Русский, чтобы изменить язык нажмите</div> <div class='key-btn'>SHIFT</div><div class='key-btn'>ALT</div> <div class='change-lang'><p class='lang-text'>Или нажмите на эту кнопку </p><button class='key-btn change-lang-btn special'>En</button></div></div>" : "<div class='lang'> <div>Current language - English, to change current language press</div><div class='key-btn'>SHIFT</div><div class='key-btn'>ALT</div><div class='change-lang'><p class='lang-text'>Or press this button </p><button class='key-btn change-lang-btn special'>RU</button></div></div>"
 			k.btns.forEach(btn => {
 				let attr = `data-btn=${btn.attribute ? btn.attribute : (lang === "ru" ? btn.btnRu : btn.btn)}`
 				keyboard.insertAdjacentHTML("beforeend",`
@@ -50,6 +52,15 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 		destroyKeyboard() {
 			keyboard.innerHTML = ""
+		}
+
+		changeLang() {
+			this.destroyKeyboard()
+			if(this.lang === "ru") {
+				this.initKeyboard("en")
+			} else {
+				this.initKeyboard("ru")
+			}
 		}
 	}
 
@@ -133,27 +144,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-	let isInitKeyBoard = false
+	// let isInitKeyBoard = false
 
 
-	const rusLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
-	const enLower = "abcdefghijklmnopqrstuvwxyz"
+	// const rusLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
+	// const enLower = "abcdefghijklmnopqrstuvwxyz"
 
 	let pressedBtns = []
 
 	document.addEventListener("keydown", (e) => {
 		pressedBtns.push(e.key)
-		if(!isInitKeyBoard) {
-			if(rusLower.indexOf(e.key.toLowerCase()) >= 0) {
-				k.initKeyboard("ru")
-				isInitKeyBoard = true
-			} else if(enLower.indexOf(e.key.toLowerCase()) >= 0) {
-				k.initKeyboard("en")
-				isInitKeyBoard = true
-			} else {
-				alert("PRESS ANY LETTER TO DETECT LANGUAGE")
-			}
-		}
+		// if(!isInitKeyBoard) {
+		// 	if(rusLower.indexOf(e.key.toLowerCase()) >= 0) {
+		// 		k.initKeyboard("ru")
+		// 		isInitKeyBoard = true
+		// 	} else if(enLower.indexOf(e.key.toLowerCase()) >= 0) {
+		// 		k.initKeyboard("en")
+		// 		isInitKeyBoard = true
+		// 	} else {
+		// 		alert("PRESS ANY LETTER TO DETECT LANGUAGE")
+		// 	}
+		// }
 		const btns = document.querySelectorAll(".key-btn")
 		if(btns[0]) {
 			btns.forEach(item => {
@@ -169,13 +180,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	})
 	document.addEventListener("keyup", (e) => {
 		if(pressedBtns.length === 2 && pressedBtns.some(item => item === "Shift") && pressedBtns.some(item => item === "Alt")) {
-			k.destroyKeyboard()
-
-			if(k.lang === "ru") {
-				k.initKeyboard("en")
-			} else {
-				k.initKeyboard("ru")
-			}
+			k.changeLang()
 		}
 		pressedBtns = pressedBtns.filter(item => {
 			if(e.key != item) {
@@ -195,33 +200,40 @@ document.addEventListener("DOMContentLoaded", () => {
 	})
 
 	function addLetter(l) {
-		textArea.value += l;
+		textArea.value += l
 		textArea.focus()
 	}
 
 	function removeLetter(pos) {
-		if(pos === 'prev') {
+		if(pos === "prev") {
 			textArea.value = textArea.value.substring(0, textArea.value.length - 1)
 			textArea.focus()
 
 		}
 	}
 
-	document.addEventListener('click', e => {
-		if(e.target.classList.contains('key-btn')) {
-			if(!e.target.classList.contains('special')) {
-				addLetter(e.target.getAttribute('data-btn'))
+	document.addEventListener("click", e => {
+		if(e.target.classList.contains("key-btn")) {
+			if(!e.target.classList.contains("special")) {
+				addLetter(e.target.getAttribute("data-btn"))
 			}
-			if(e.target.getAttribute('data-btn') === 'backspace') {
-				removeLetter('prev')
+			if(e.target.getAttribute("data-btn") === "backspace") {
+				removeLetter("prev")
 			}
 		}
-		if(e.target.parentElement && e.target.parentElement.classList.contains('key-btn')) {
-			if(!e.target.parentElement.classList.contains('special')) {
-				addLetter(e.target.parentElement.getAttribute('data-btn'))
+		if(e.target.parentElement && e.target.parentElement.classList.contains("key-btn")) {
+			if(!e.target.parentElement.classList.contains("special")) {
+				addLetter(e.target.parentElement.getAttribute("data-btn"))
 			}
+		}
+		if(e.target.classList.contains("change-lang-btn")) {
+			k.changeLang()
 		}
 	})
-
+	if(sessionStorage.getItem("lang")) {
+		k.initKeyboard(sessionStorage.getItem("lang"))
+	} else {
+		k.initKeyboard("ru")
+	}
 	
 })
