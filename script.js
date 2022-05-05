@@ -420,7 +420,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	if(sessionStorage.getItem("lang")) {
 		k.initKeyboard(sessionStorage.getItem("lang"))
 	} else {
-		k.initKeyboard("ru")
+		k.initKeyboard("en")
 	}
 	
 })
