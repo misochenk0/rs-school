@@ -6,19 +6,30 @@ body {
 	width: 100%;
 	height: 100%;
 	margin: 0;
+	--color-theme: green;
+	--color-bg: black;
+	--letters: #fff;
 }
+
+body{
+	--color-theme: #e9c46a;
+	--color-bg: #264653;
+	--letters: #2a9d8f;
+}
+
 * {
 	box-sizing: border-box;
 }
 
 .text-area {
 	width: 100%;
-	border: 2px solid green;
+	border: 2px solid var(--color-theme);
 	min-height: 400px;
-	background: black;
-	color: green;
+	background: var(--color-bg);
+	color: var(--color-theme);
 	font-size: 18px;
 	padding: 15px;
+	resize: none;
 	line-height: 1.5;
 	font-weight: bold;
 }
@@ -36,7 +47,7 @@ body {
 	width: 100%;
 	text-align: right;
 	margin-bottom: 20px;
-	color: green;
+	color: var(--color-theme);
 	display: flex;
 	align-items: center;
 	gap: 20px;
@@ -52,8 +63,8 @@ body {
 }
 
 .lang .key-btn {
-	background: green;
-	color: #fff;
+	background: var(--color-theme);
+	color: var(--letters);
 	pointer-events: none;
 }
 .lang .change-lang-btn {
@@ -61,38 +72,38 @@ body {
 	cursor: pointer;
 }
 .lang .change-lang-btn:hover {
-	color: green;
-	background: white;
+	color: var(--color-theme);
+	background: var(--letters);
 }
 .key-btn {
-	background: none;
+	background: var(--letters);
 	border-radius: 4px;
-	border: 1px solid green;
+	border: 1px solid var(--color-theme);
 	padding: 5px;
 	min-width: 40px;
 	transition: .3s all;
 	font-size: 20px;
-	color: green;
+	color: var(--color-theme);
 	flex-shrink: 0;
 	position: relative;
 }
 .key-btn:hover {
-	box-shadow: 0 0 0 1px rgba(0, 0, 0, .3);
+	box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.24);
 	cursor: pointer;
 }
-/* .key-btn:focus {
-	background: green;
-	color: #fff;
-} */
+.key-btn:focus {
+	box-shadow: 0px 0px 0px .5px rgba(0, 0, 0, 0.24);
+	transform: scale(.95);
+}
 
 .key-btn.caps-lock {
-	background: green;
-	color: #fff;
+	background: var(--color-theme);
+	color: var(--letters);
 }
 
 .key-btn.press {	
-	background: green;
-	color:#fff;
+	background: var(--color-theme);
+	color:var(--letters);
 }
 
 .key-btn.space {
@@ -126,7 +137,7 @@ body {
 	top: 3px;
 	right: 3px;
 	font-size: 10px;
-	color: darkgreen;
+	color: var(--color-theme);
 	font-weight: bold;
 }
 
