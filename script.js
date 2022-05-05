@@ -2,14 +2,17 @@ document.addEventListener("DOMContentLoaded", () => {
 	
 	const root = document.body
 
-
+	let cursorPosition = null,
+		isCapsLock = false
 
 
 
 	const textArea = document.createElement("textarea")
 	textArea.classList.add("text-area")
 	root.appendChild(textArea)
-
+	textArea.addEventListener("click", () => {
+		cursorPosition = textArea.selectionStart
+	})
 	const keyboard = document.createElement("div")
 	keyboard.classList.add("keyboard")
 	root.appendChild(keyboard)
@@ -142,29 +145,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 
-
-
-	// let isInitKeyBoard = false
-
-
-	// const rusLower = "абвгдеёжзийклмнопрстуфхцчшщъыьэюя"
-	// const enLower = "abcdefghijklmnopqrstuvwxyz"
-
 	let pressedBtns = []
 
 	document.addEventListener("keydown", (e) => {
+		textArea.focus()
 		pressedBtns.push(e.key)
-		// if(!isInitKeyBoard) {
-		// 	if(rusLower.indexOf(e.key.toLowerCase()) >= 0) {
-		// 		k.initKeyboard("ru")
-		// 		isInitKeyBoard = true
-		// 	} else if(enLower.indexOf(e.key.toLowerCase()) >= 0) {
-		// 		k.initKeyboard("en")
-		// 		isInitKeyBoard = true
-		// 	} else {
-		// 		alert("PRESS ANY LETTER TO DETECT LANGUAGE")
-		// 	}
-		// }
+
+		if(e.key === "Tab") {
+			e.preventDefault()
+			textArea.focus()
+			addLetter("\t")
+		}
+
 		const btns = document.querySelectorAll(".key-btn")
 		if(btns[0]) {
 			btns.forEach(item => {
@@ -179,6 +171,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	})
 	document.addEventListener("keyup", (e) => {
+		cursorPosition = textArea.selectionStart
 		if(pressedBtns.length === 2 && pressedBtns.some(item => item === "Shift") && pressedBtns.some(item => item === "Alt")) {
 			k.changeLang()
 		}
@@ -200,25 +193,219 @@ document.addEventListener("DOMContentLoaded", () => {
 	})
 
 	function addLetter(l) {
-		textArea.value += l
+		let newL = isCapsLock ? l.toUpperCase() : l
+		if(cursorPosition !== 0) {
+			textArea.value = textArea.value.slice(0, cursorPosition) + newL + textArea.value.slice(cursorPosition, textArea.value.length)
+		} else {
+			textArea.value += newL
+		}
 		textArea.focus()
+		cursorPosition +=1
+		textArea.setSelectionRange(cursorPosition, cursorPosition, "forward")
 	}
 
 	function removeLetter(pos) {
+		textArea.focus()
 		if(pos === "prev") {
-			textArea.value = textArea.value.substring(0, textArea.value.length - 1)
-			textArea.focus()
-
+			if(cursorPosition === null) {
+				textArea.value = textArea.value.substring(0, textArea.value.length - 1)
+			} else {
+				cursorPosition -=1 
+				textArea.value = textArea.value.slice(0, cursorPosition) + textArea.value.slice(cursorPosition +1, textArea.value.length)
+			}
+		} else if (pos === "next") {
+			if(cursorPosition === null) {
+				textArea.value = textArea.value.substring(0, textArea.value.length)
+			} else {
+				textArea.value = textArea.value.slice(0, cursorPosition) + textArea.value.slice(cursorPosition +1, textArea.value.length)
+			}
 		}
+		textArea.setSelectionRange(cursorPosition, cursorPosition, "forward")
 	}
-
+	let start = ""
 	document.addEventListener("click", e => {
 		if(e.target.classList.contains("key-btn")) {
 			if(!e.target.classList.contains("special")) {
-				addLetter(e.target.getAttribute("data-btn"))
-			}
+				if(pressedBtns.some(item => item === "Shift")) {
+					if(e.target.querySelector(".extra-number")) {
+						addLetter(e.target.querySelector(".extra-number").textContent)
+					} else {
+						addLetter(e.target.getAttribute("data-btn").toUpperCase())
+					}
+				} else {
+					addLetter(e.target.getAttribute("data-btn"))
+				}
+			} 
 			if(e.target.getAttribute("data-btn") === "backspace") {
-				removeLetter("prev")
+				if(textArea.selectionStart !== textArea.selectionEnd) {
+					textArea.focus()
+					let text = textArea.value.slice(0, textArea.selectionStart) + textArea.value.slice(textArea.selectionEnd, textArea.value.length)
+					textArea.value = text
+				} else {
+					removeLetter("prev")
+				}
+			}
+			if(e.target.getAttribute("data-btn") === "delete") {
+				if(textArea.selectionStart !== textArea.selectionEnd) {
+					textArea.focus()
+					let text = textArea.value.slice(0, textArea.selectionStart) + textArea.value.slice(textArea.selectionEnd, textArea.value.length)
+					textArea.value = text
+				} else {
+					removeLetter("next")
+				}
+			}
+			if(e.target.getAttribute("data-btn") === "enter") {
+				addLetter("\n")
+
+			}
+			if(e.target.getAttribute("data-btn") === "arrowleft") {
+				textArea.focus()
+				if(pressedBtns.some(item => item === "Shift") && !start) {
+					start = cursorPosition
+				}
+				if(cursorPosition === null) {
+					cursorPosition = textArea.value.length - 1
+				} else {
+					cursorPosition -= 1
+				}
+				if(pressedBtns.some(item => item === "Shift")) {
+
+					if(start < cursorPosition) {
+						textArea.setSelectionRange(start, cursorPosition, "backward")
+					} else {
+						textArea.setSelectionRange(cursorPosition, start, "backward")
+					}
+				} else {
+					start = ""
+					textArea.setSelectionRange(cursorPosition, cursorPosition, "backward")
+				}
+				
+			}
+			if(e.target.getAttribute("data-btn") === "arrowright") {
+				textArea.focus()
+				if(pressedBtns.some(item => item === "Shift") && !start) {
+					start = cursorPosition
+				}
+				
+				if(cursorPosition === null) {
+					cursorPosition = textArea.value.length
+				} else {
+					cursorPosition += 1
+				}
+				if(pressedBtns.some(item => item === "Shift")) {
+					if(start < cursorPosition) {
+						textArea.setSelectionRange(start, cursorPosition, "forward")
+					} else {
+						textArea.setSelectionRange(cursorPosition, start, "forward")
+					}
+				} else {
+					start = ""
+					textArea.setSelectionRange(cursorPosition, cursorPosition, "forward")
+				}
+			}
+
+			if(e.target.getAttribute("data-btn") === "arrowup") {
+				textArea.focus()
+				if(pressedBtns.some(item => item === "Shift") && !start) {
+					start = cursorPosition
+				}
+
+				if(cursorPosition === null) {
+					cursorPosition = textArea.value.length
+				} else {
+					let total = 0
+					let textArr = textArea.value.split("\n")
+					for(let i = 0; i < textArr.length; i++) {
+						if(total === 0 && cursorPosition < textArr[i].length ) {
+							break
+						}else {
+							if(i === 0) {
+								total += textArr[i].length
+							} else {
+								total += textArr[i].length + 1
+							}
+							if(cursorPosition - 1 < total ) {
+								if(textArr[i - 1]) {
+									let thisLength = textArr[i].length
+									let pos = cursorPosition - total + thisLength
+									let newPos = cursorPosition - pos - textArr[i - 1].length + 1
+									cursorPosition = newPos
+
+									if(pressedBtns.some(item => item === "Shift")) {
+
+										if(start < cursorPosition) {
+											textArea.setSelectionRange(start, cursorPosition, "backward")
+										} else {
+											textArea.setSelectionRange(cursorPosition, start, "backward")
+										}
+									} else {
+										start = ""
+										textArea.setSelectionRange(cursorPosition, cursorPosition, "forward")
+									}
+								}
+								break
+							}
+						}
+					}
+				}				
+			}
+			if(e.target.getAttribute("data-btn") === "arrowdown") {
+				textArea.focus()
+				if(pressedBtns.some(item => item === "Shift") && !start) {
+					start = cursorPosition
+				}
+
+				if(cursorPosition === null) {
+					cursorPosition = textArea.value.length
+				} else {
+					let total = 0
+					let textArr = textArea.value.split("\n")
+					for(let i = 0; i < textArr.length; i++) {
+						if(total >= textArea.value.length && cursorPosition < textArr[i].length ) {
+							break
+						}else {
+							if(i === 0) {
+								total += textArr[i].length
+							} else {
+								total += textArr[i].length + 1
+							}
+							if(cursorPosition - 1 < total ) {
+								if(textArr[i + 1]) {
+									// let thisLength = textArr[i].length
+									let newPos = cursorPosition + textArr[i + 1].length + 1
+									cursorPosition = newPos
+									if(pressedBtns.some(item => item === "Shift")) {
+										if(start < cursorPosition) {
+											textArea.setSelectionRange(start, cursorPosition, "backward")
+										} else {
+											textArea.setSelectionRange(cursorPosition, start, "backward")
+										}
+									} else {
+										start = ""
+										textArea.setSelectionRange(cursorPosition, cursorPosition, "forward")
+									}
+								}
+								break
+							}
+						}
+					}
+				}				
+			}
+			if(e.target.getAttribute("data-btn") === "tab") {
+				textArea.focus()
+				addLetter("\t")
+			}
+			if(e.target.getAttribute("data-btn") === "space") {
+				textArea.focus()
+				addLetter(" ")
+			}
+			if(e.target.getAttribute("data-btn") === "capslock") {
+				isCapsLock = isCapsLock ? false : true
+				if(isCapsLock) {
+					e.target.classList.add("caps-lock")
+				} else {
+					e.target.classList.remove("caps-lock")
+				}
 			}
 		}
 		if(e.target.parentElement && e.target.parentElement.classList.contains("key-btn")) {
