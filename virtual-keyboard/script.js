@@ -149,6 +149,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 	document.addEventListener("keydown", (e) => {
 		textArea.focus()
+		console.log(e.key);
 		pressedBtns.push(e.key)
 
 		if(e.key === "Tab") {
@@ -165,6 +166,15 @@ document.addEventListener("DOMContentLoaded", () => {
 				}
 				if(item.getAttribute("data-btn") === "space" && e.keyCode == 32) {
 					item.classList.add("press")
+				}
+				if(e.key === "CapsLock") {
+					isCapsLock = isCapsLock ? false : true;
+					const btn = document.querySelector("[data-btn='capslock']")
+					if(isCapsLock && btn) {
+						btn.classList.add("caps-lock")
+					} else {
+						btn.classList.remove("caps-lock")
+					}
 				}
 				
 			})
