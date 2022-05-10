@@ -10,4 +10,8 @@ If you want to run ESLint, use the following command:
 
 ***npx esw -w script.js***
 
+<<<<<<< HEAD
 ---
+=======
+---
+>>>>>>> virtual-keyboard-task

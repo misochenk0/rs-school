@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Logs
 logs
 *.log
@@ -105,3 +106,8 @@ dist
 virtual-keyboard/node_modules
 virtual-keyboard/yarn.lock
 shelter
+=======
+virtual-keyboard/node_modules
+virtual-keyboard/yarn.lock
+shelter
+>>>>>>> virtual-keyboard-task
