@@ -2,14 +2,18 @@ type resType = {
     ok: string,
     status: number,
     statusText: string,
+    message: string,
+}
+
+type baseLinkType = string
+type optionsType = {
+    [apiKey: string]: string
 }
 
 class Loader {
     baseLink: string;
-    options: {
-        [apiKey: string]: string
-    }
-    constructor(baseLink: string, options: {apiKey: string}) {
+    options: optionsType
+    constructor(baseLink: baseLinkType, options: optionsType) {
         this.baseLink = baseLink;
         this.options = options;
     }
@@ -44,7 +48,7 @@ class Loader {
         return url.slice(0, -1);
     }
 
-    load(method: string, endpoint: string, callback: (data: resType) => void, options = {}) {
+    load(method: string, endpoint: string, callback: (data: Pick<resType, "ok" | "status" | "statusText" >) => void, options = {}) {
         fetch(this.makeUrl(options, endpoint), { method })
             .then(this.errorHandler)
             .then((res) => res.json())

@@ -3,18 +3,18 @@ import { AppView } from '../view/appView';
 import {ArticlesInterface, SourcesInterface} from "../../../types/news";
 
 class App {
-    controller: AppController;
-    view: AppView;
+    private _controller: AppController;
+    private _view: AppView;
     constructor() {
-        this.controller = new AppController();
-        this.view = new AppView();
+        this._controller = new AppController();
+        this._view = new AppView();
     }
 
     start() {
         document.querySelector('.sources')?.addEventListener('click', (e: Event) =>
-            this.controller.getNews(e, (data?: ArticlesInterface) => this.view.drawNews(data))
+            this._controller.getNews<Readonly<ArticlesInterface>>(e, (data) => this._view.drawNews(data))
         );
-        this.controller.getSources((data?: SourcesInterface) => this.view.drawSources(data));
+        this._controller.getSources<Readonly<SourcesInterface>>((data) => this._view.drawSources(data));
     }
 }
 
